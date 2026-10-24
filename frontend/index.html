@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room & Event Approval System - Campus Dashboard</title>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="sidebarBackdrop" class="sidebar-backdrop" onclick="toggleMobileSidebar(false)"></div>
+
+  <div class="app-wrapper">
+
+    <!-- ==================== SIDEBAR ==================== -->
+    <aside id="appSidebar" class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+            <path d="m9 16 2 2 4-4"></path>
+          </svg>
+        </div>
+        <div class="sidebar-title-group">
+          <div class="sidebar-title">Room & Event</div>
+          <div class="sidebar-subtitle">Approval System</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main Menu</div>
+
+        <button type="button" class="nav-item" data-view="dashboard" onclick="navigateTo('dashboard')">
+          <div class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="9"></rect>
+              <rect x="14" y="3" width="7" height="5"></rect>
+              <rect x="14" y="12" width="7" height="9"></rect>
+              <rect x="3" y="16" width="7" height="5"></rect>
+            </svg>
+            <span>Dashboard</span>
+          </div>
+        </button>
+
+        <button type="button" class="nav-item" data-view="committees" onclick="navigateTo('committees')">
+          <div class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Committees</span>
+          </div>
+          <span class="nav-counter" id="navCounterCommittees">0</span>
+        </button>
+
+        <button type="button" class="nav-item" data-view="venues" onclick="navigateTo('venues')">
+          <div class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Venues</span>
+          </div>
+          <span class="nav-counter" id="navCounterVenues">0</span>
+        </button>
+
+        <button type="button" class="nav-item" data-view="events" onclick="navigateTo('events')">
+          <div class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Events</span>
+          </div>
+          <span class="nav-counter" id="navCounterEvents">0</span>
+        </button>
+
+        <div class="nav-section-title">Workflow</div>
+
+        <button type="button" class="nav-item active" data-view="bookings" onclick="navigateTo('bookings')">
+          <div class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Booking Requests</span>
+          </div>
+          <span class="nav-counter" id="navCounterBookings">0</span>
+        </button>
+
+        <button type="button" class="nav-item" id="navItemApprovals" data-view="approvals" onclick="navigateTo('approvals')" style="display: none;">
+          <div class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path d="m9 12 2 2 4-4"></path>
+            </svg>
+            <span>Approvals</span>
+          </div>
+          <span class="nav-counter pending-alert" id="navCounterApprovals">0</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="api-status-card" id="apiStatusCard">
+          <div class="status-indicator" id="apiStatusDot"></div>
+          <div style="flex: 1; overflow: hidden;">
+            <div style="font-weight: 600; color: #fff;" id="apiStatusText">Checking API...</div>
+            <div style="color: #64748b; font-size: 0.7rem;">http://127.0.0.1:5000</div>
+          </div>
+          <button class="btn btn-sm btn-secondary" onclick="checkBackendHealth(true)" title="Retry connection" style="padding: 4px 6px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 13px; height: 13px;">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================== MAIN CONTENT AREA ==================== -->
+    <main class="app-main">
+
+      <!-- Topbar -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button class="menu-toggle" onclick="toggleMobileSidebar(true)" aria-label="Toggle Navigation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="topbar-heading">
+            <h1 id="topbarTitle">Booking Requests</h1>
+            <p id="topbarSubtitle">Booking User Mode • Submit &amp; track room reservation requests</p>
+          </div>
+        </div>
+
+        <!-- Role Switcher (5 Roles: Requester & 4 Authorities) -->
+        <div class="role-switcher-container" title="Switch User Identity (Enforced by Backend)">
+          <span class="role-demo-badge">Active Identity</span>
+          <select id="activeUserRoleSelect" class="user-switcher-select" onchange="handleUserRoleChange(this.value)" aria-label="Select Active User Role">
+            <option value="booking_user">Booking User (Requester)</option>
+            <option value="Chairperson">1. Chairperson (Dr. S. K. Sharma)</option>
+            <option value="POC">2. POC - Student Council (Aayush Patel)</option>
+            <option value="General Secretary">3. General Secretary (Rhea Deshmukh)</option>
+            <option value="College Authority">4. College Authority (Prof. R. V. Kulkarni)</option>
+          </select>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-secondary btn-sm" onclick="loadAllData(true)" title="Refresh Data from Flask Server">
+            <svg id="refreshIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+            <span>Refresh</span>
+          </button>
+
+          <button class="btn btn-primary btn-sm requester-action" id="topbarNewBookingBtn" onclick="openNewBookingModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>New Booking</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-area">
+
+        <!-- Offline Banner (Visible only if backend connection fails) -->
+        <div id="offlineBanner" class="offline-banner" style="display: none;">
+          <div class="offline-banner-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 20px; height: 20px; flex-shrink: 0;">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+              <strong>Cannot connect to Flask Backend at http://127.0.0.1:5000</strong>
+              <div style="font-size: 0.78rem; color: #b91c1c; margin-top: 2px;">
+                Make sure your Flask server is running: <code>python app.py</code> in the <code>backend/</code> folder.
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="loadAllData(true)">Retry Connection</button>
+        </div>
+
+        <!-- ==========================================================
+             VIEW 1: DASHBOARD
+             ========================================================== -->
+        <section id="view-dashboard" class="view-section">
+
+          <!-- Stat Cards Grid -->
+          <div class="stats-grid">
+            <div class="stat-card" onclick="navigateTo('committees')">
+              <div class="stat-header">
+                <span class="stat-title">Committees</span>
+                <div class="stat-icon blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="dashTotalCommittees">0</div>
+              <div class="stat-footer">
+                <span>Active college committees</span>
+              </div>
+            </div>
+
+            <div class="stat-card" onclick="navigateTo('venues')">
+              <div class="stat-header">
+                <span class="stat-title">Venues</span>
+                <div class="stat-icon indigo">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="dashTotalVenues">0</div>
+              <div class="stat-footer">
+                <span>Halls, labs & auditoriums</span>
+              </div>
+            </div>
+
+            <div class="stat-card" onclick="navigateTo('events')">
+              <div class="stat-header">
+                <span class="stat-title">Events</span>
+                <div class="stat-icon purple">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="dashTotalEvents">0</div>
+              <div class="stat-footer">
+                <span>Organized college events</span>
+              </div>
+            </div>
+
+            <div class="stat-card" onclick="handlePendingStatCardClick()">
+              <div class="stat-header">
+                <span class="stat-title">Pending Requests</span>
+                <div class="stat-icon amber">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="dashPendingBookings" style="color: #d97706;">0</div>
+              <div class="stat-footer">
+                <span style="color: #d97706; font-weight: 600;">Requires approval action</span>
+              </div>
+            </div>
+
+            <div class="stat-card" onclick="navigateTo('bookings')">
+              <div class="stat-header">
+                <span class="stat-title">Approved Requests</span>
+                <div class="stat-icon emerald">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="dashApprovedBookings" style="color: #059669;">0</div>
+              <div class="stat-footer">
+                <span>Confirmed reservations</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Split Grid: Recent Bookings & Operations -->
+          <div class="dashboard-split-grid">
+            <!-- Left: Recent Booking Requests Table -->
+            <div class="panel-card">
+              <div class="panel-header">
+                <div class="panel-title-group">
+                  <h2>Recent Booking Requests</h2>
+                  <p>Latest venue reservation requests</p>
+                </div>
+                <button class="btn btn-outline-primary btn-sm" onclick="navigateTo('bookings')">View All</button>
+              </div>
+
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Req #</th>
+                      <th>Event</th>
+                      <th>Venue</th>
+                      <th>Scheduled Date & Time</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashRecentBookingsTable">
+                    <tr>
+                      <td colspan="6" class="table-empty-state">
+                        <p>Loading recent booking requests...</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Right: Quick Operations & Overview -->
+            <div>
+              <div class="panel-card" style="margin-bottom: 24px;">
+                <div class="panel-header">
+                  <div class="panel-title-group">
+                    <h2>Quick Actions</h2>
+                    <p>Common management tasks</p>
+                  </div>
+                </div>
+                <div style="padding: 20px;">
+                  <div class="quick-action-list">
+                    <div class="quick-action-item requester-action" onclick="openNewBookingModal()">
+                      <div class="quick-action-left">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                          <line x1="12" y1="10" x2="12" y2="16"></line>
+                          <line x1="9" y1="13" x2="15" y2="13"></line>
+                        </svg>
+                        <span>Request Venue Booking</span>
+                      </div>
+                      <span style="color: var(--primary); font-size: 0.8rem; font-weight: 600;">Create &rarr;</span>
+                    </div>
+
+                    <div class="quick-action-item requester-action" onclick="openNewEventModal()">
+                      <div class="quick-action-left">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        <span>Register New Event</span>
+                      </div>
+                      <span style="color: var(--primary); font-size: 0.8rem; font-weight: 600;">Add &rarr;</span>
+                    </div>
+
+                    <div class="quick-action-item requester-action" onclick="openNewVenueModal()">
+                      <div class="quick-action-left">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span>Add New Venue</span>
+                      </div>
+                      <span style="color: var(--primary); font-size: 0.8rem; font-weight: 600;">Add &rarr;</span>
+                    </div>
+
+                    <div class="quick-action-item approval-action" id="dashQuickPendingAction" onclick="navigateTo('approvals')" style="display: none;">
+                      <div class="quick-action-left">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                          <path d="m9 12 2 2 4-4"></path>
+                        </svg>
+                        <span>Review Pending Approvals</span>
+                      </div>
+                      <span class="badge badge-pending" id="dashQuickPendingBadge">0</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-card">
+                <div class="panel-header">
+                  <div class="panel-title-group">
+                    <h2>Venue Utilization</h2>
+                    <p>Campus spaces snapshot</p>
+                  </div>
+                </div>
+                <div style="padding: 20px;" id="dashVenueSummary">
+                  <p style="color: var(--text-muted); font-size: 0.85rem;">Loading venue status...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 2: COMMITTEES
+             ========================================================== -->
+        <section id="view-committees" class="view-section">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2>Committees Directory</h2>
+                <p>Manage college clubs, departments and organizing bodies</p>
+              </div>
+              <div class="panel-controls">
+                <div class="search-input-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="searchCommittees" class="search-input" placeholder="Search committees..." oninput="renderCommitteesTable()">
+                </div>
+                <button class="btn btn-primary btn-sm requester-action" onclick="openCommitteeModal()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span>Add Committee</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">ID</th>
+                    <th>Committee Name</th>
+                    <th>Faculty Advisor</th>
+                    <th>Contact Email</th>
+                    <th>Organized Events</th>
+                    <th style="width: 140px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="committeesTableBody">
+                  <tr>
+                    <td colspan="6" class="table-empty-state">
+                      <p>Loading committees...</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 3: VENUES
+             ========================================================== -->
+        <section id="view-venues" class="view-section">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2>Campus Venues & Rooms</h2>
+                <p>Manage auditoriums, seminar halls, labs, and capacity</p>
+              </div>
+              <div class="panel-controls">
+                <div class="search-input-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="searchVenues" class="search-input" placeholder="Search venues..." oninput="renderVenuesTable()">
+                </div>
+                <select id="filterVenueType" class="filter-select" onchange="renderVenuesTable()">
+                  <option value="">All Venue Types</option>
+                </select>
+                <button class="btn btn-primary btn-sm requester-action" onclick="openVenueModal()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span>Add Venue</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">ID</th>
+                    <th>Venue Name</th>
+                    <th>Type</th>
+                    <th>Location / Building</th>
+                    <th>Capacity</th>
+                    <th style="width: 140px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="venuesTableBody">
+                  <tr>
+                    <td colspan="6" class="table-empty-state">
+                      <p>Loading venues...</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 4: EVENTS
+             ========================================================== -->
+        <section id="view-events" class="view-section">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2>Events & Programs</h2>
+                <p>Track fests, seminars, competitions, and linked committees</p>
+              </div>
+              <div class="panel-controls">
+                <div class="search-input-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="searchEvents" class="search-input" placeholder="Search events..." oninput="renderEventsTable()">
+                </div>
+                <select id="filterEventCommittee" class="filter-select" onchange="renderEventsTable()">
+                  <option value="">All Committees</option>
+                </select>
+                <button class="btn btn-primary btn-sm requester-action" onclick="openEventModal()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span>Add Event</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">ID</th>
+                    <th>Event Name</th>
+                    <th>Event Date</th>
+                    <th>Expected Attendees</th>
+                    <th>Organizing Committee</th>
+                    <th style="width: 190px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="eventsTableBody">
+                  <tr>
+                    <td colspan="6" class="table-empty-state">
+                      <p>Loading events...</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 5: BOOKING REQUESTS
+             ========================================================== -->
+        <section id="view-bookings" class="view-section active">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2>Room & Venue Booking Requests</h2>
+                <p>Manage venue slot bookings, timestamps, and request status</p>
+              </div>
+              <div class="panel-controls">
+                <div class="search-input-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="searchBookings" class="search-input" placeholder="Search bookings..." oninput="renderBookingsTable()">
+                </div>
+                <select id="filterBookingStatus" class="filter-select" onchange="renderBookingsTable()">
+                  <option value="">All Statuses</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+                <select id="filterBookingVenue" class="filter-select" onchange="renderBookingsTable()">
+                  <option value="">All Venues</option>
+                </select>
+                <button class="btn btn-primary btn-sm requester-action" id="bookingsNewBookingBtn" onclick="openBookingModal()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  <span>New Booking Request</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">Req #</th>
+                    <th>Event Name</th>
+                    <th>Requested Venue</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Status</th>
+                    <th style="width: 220px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="bookingsTableBody">
+                  <tr>
+                    <td colspan="7" class="table-empty-state">
+                      <p>Loading bookings...</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================================
+             VIEW 6: APPROVALS (FOUR-MEMBER WORKFLOW)
+             ========================================================== -->
+        <section id="view-approvals" class="view-section">
+
+          <!-- Approver Summary Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-title">Total Requests</span>
+                <div class="stat-icon blue">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="approvalStatTotal">0</div>
+              <div class="stat-footer"><span>All booking requests submitted</span></div>
+            </div>
+
+            <div class="stat-card" style="border-left: 3px solid #f59e0b;">
+              <div class="stat-header">
+                <span class="stat-title">Awaiting My Approval</span>
+                <div class="stat-icon amber">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="approvalStatAwaiting" style="color: #d97706;">0</div>
+              <div class="stat-footer"><span style="color: #d97706; font-weight: 600;">Active stage queue</span></div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-title">Approved by Me</span>
+                <div class="stat-icon emerald">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="approvalStatApprovedByMe" style="color: #059669;">0</div>
+              <div class="stat-footer"><span>Decided favorably</span></div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-title">Rejected by Me</span>
+                <div class="stat-icon purple" style="color: #dc2626;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="approvalStatRejectedByMe" style="color: #dc2626;">0</div>
+              <div class="stat-footer"><span>Declined requests</span></div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-title">Fully Approved</span>
+                <div class="stat-icon emerald">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value" id="approvalStatFullyApproved" style="color: #059669;">0</div>
+              <div class="stat-footer"><span>All 4 stages completed</span></div>
+            </div>
+          </div>
+
+          <!-- Section A: Pending Requests Waiting For Action -->
+          <div class="panel-card" style="border-left: 4px solid #f59e0b;">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <h2>Pending Requests Awaiting Decision</h2>
+                  <span class="badge badge-pending" id="approvalsPendingCountBadge">0 Pending</span>
+                </div>
+                <p>Review booking details, check venue availability and make decisions</p>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">Req #</th>
+                    <th>Event &amp; Committee</th>
+                    <th>Requested Venue</th>
+                    <th>Event Date &amp; Time</th>
+                    <th>Attendance</th>
+                    <th>Current Approval Stage</th>
+                    <th style="width: 170px; text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="pendingApprovalsTableBody">
+                  <tr>
+                    <td colspan="7" class="table-empty-state">
+                      <p>No pending booking requests requiring approval at this time.</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section B: All Approvals History / Audit Trail -->
+          <div class="panel-card">
+            <div class="panel-header">
+              <div class="panel-title-group">
+                <h2>Approvals Audit Trail & History</h2>
+                <p>Record of past approval decisions and evaluator remarks</p>
+              </div>
+              <div class="panel-controls">
+                <div class="search-input-wrapper">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="searchApprovals" class="search-input" placeholder="Search approval history..." oninput="renderApprovalsTable()">
+                </div>
+                <select id="filterApprovalDecision" class="filter-select" onchange="renderApprovalsTable()">
+                  <option value="">All Decisions</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th style="width: 70px;">Appr #</th>
+                    <th>Req # / Event</th>
+                    <th>Venue</th>
+                    <th>Decision</th>
+                    <th>Remarks</th>
+                    <th>Decided At</th>
+                    <th style="width: 130px; text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="approvalsTableBody">
+                  <tr>
+                    <td colspan="7" class="table-empty-state">
+                      <p>Loading approval history...</p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================
+       MODALS
+       ========================================================== -->
+
+  <!-- Modal 1: Committee Form (Add / Edit) -->
+  <div id="committeeModal" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="committeeModalTitle">Add Committee</h3>
+        <button class="modal-close-btn" onclick="closeModal('committeeModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="committeeForm" onsubmit="handleCommitteeSubmit(event)">
+        <input type="hidden" id="committeeFormId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="committeeName">Committee Name <span class="required">*</span></label>
+            <input type="text" id="committeeName" class="form-control" placeholder="e.g. Technical Committee" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="committeeAdvisor">Faculty Advisor <span class="required">*</span></label>
+            <input type="text" id="committeeAdvisor" class="form-control" placeholder="e.g. Dr. A. Sharma" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="committeeEmail">Contact Email <span class="required">*</span></label>
+            <input type="email" id="committeeEmail" class="form-control" placeholder="e.g. tech@college.edu" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('committeeModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="committeeSubmitBtn">Save Committee</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Venue Form (Add / Edit) -->
+  <div id="venueModal" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="venueModalTitle">Add Venue</h3>
+        <button class="modal-close-btn" onclick="closeModal('venueModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="venueForm" onsubmit="handleVenueSubmit(event)">
+        <input type="hidden" id="venueFormId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="venueName">Venue Name <span class="required">*</span></label>
+            <input type="text" id="venueName" class="form-control" placeholder="e.g. Main Auditorium" required>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="venueType">Venue Type <span class="required">*</span></label>
+              <input type="text" id="venueType" class="form-control" placeholder="e.g. Auditorium, Hall, Lab" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="venueCapacity">Seating Capacity <span class="required">*</span></label>
+              <input type="number" id="venueCapacity" class="form-control" placeholder="e.g. 500" min="1" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="venueLocation">Location / Building <span class="required">*</span></label>
+            <input type="text" id="venueLocation" class="form-control" placeholder="e.g. Main Block 1st Floor" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('venueModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="venueSubmitBtn">Save Venue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Event Form (Add / Edit) -->
+  <div id="eventModal" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="eventModalTitle">Add Event</h3>
+        <button class="modal-close-btn" onclick="closeModal('eventModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="eventForm" onsubmit="handleEventSubmit(event)">
+        <input type="hidden" id="eventFormId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="eventName">Event Name <span class="required">*</span></label>
+            <input type="text" id="eventName" class="form-control" placeholder="e.g. Annual Tech Fest 2026" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="eventCommitteeId">Organizing Committee <span class="required">*</span></label>
+            <select id="eventCommitteeId" class="form-control" required>
+              <option value="">-- Select Committee --</option>
+            </select>
+            <span class="form-hint">Committees loaded dynamically from database</span>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="eventDate">Event Date <span class="required">*</span></label>
+              <input type="date" id="eventDate" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="eventAttendees">Expected Attendees <span class="required">*</span></label>
+              <input type="number" id="eventAttendees" class="form-control" placeholder="e.g. 200" min="1" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('eventModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="eventSubmitBtn">Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 4: Booking Request Form (Add / Edit) -->
+  <div id="bookingModal" class="modal-backdrop">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="bookingModalTitle">Create Booking Request</h3>
+        <button class="modal-close-btn" onclick="closeModal('bookingModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+        <input type="hidden" id="bookingFormId">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="bookingEventId">Select Event <span class="required">*</span></label>
+            <select id="bookingEventId" class="form-control" required>
+              <option value="">-- Select Event --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bookingVenueId">Select Venue <span class="required">*</span></label>
+            <select id="bookingVenueId" class="form-control" required>
+              <option value="">-- Select Venue --</option>
+            </select>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="bookingStartTime">Start Time <span class="required">*</span></label>
+              <input type="datetime-local" id="bookingStartTime" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="bookingEndTime">End Time <span class="required">*</span></label>
+              <input type="datetime-local" id="bookingEndTime" class="form-control" required>
+            </div>
+          </div>
+          <div class="form-group" id="bookingStatusGroup" style="display: none;">
+            <label class="form-label" for="bookingStatus">Booking Status</label>
+            <select id="bookingStatus" class="form-control">
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+            <span class="form-hint">Status is normally updated automatically by approval actions</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('bookingModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="bookingSubmitBtn">Submit Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 5: Review & Decision Approval Modal -->
+  <div id="approvalModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 680px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="approvalModalTitle">Review &amp; Decide Booking Request</h3>
+        <button class="modal-close-btn" onclick="closeModal('approvalModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form id="approvalForm" onsubmit="handleApprovalSubmit(event)">
+        <input type="hidden" id="approvalRequestId">
+        <div class="modal-body">
+          <!-- Request Summary Card -->
+          <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 14px; font-size: 0.85rem;" id="approvalSummaryBox">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div style="font-weight: 700; color: var(--text-main); font-size: 0.95rem; margin-bottom: 4px;" id="approvalSummaryEvent">Event Name</div>
+                <div style="color: var(--text-muted); margin-bottom: 2px;" id="approvalSummaryVenue">Venue: Main Hall</div>
+                <div style="color: var(--text-muted);" id="approvalSummaryTime">Time: -- to --</div>
+              </div>
+              <div id="approvalSummaryRequester" style="text-align: right; font-size: 0.78rem; color: #475569;">
+                <div>Requester: Event Coordinator</div>
+                <div class="badge badge-pending" id="approvalSummaryStatusBadge" style="margin-top: 4px;">Pending</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Four-Stage Visual Stepper Container -->
+          <div style="margin: 18px 0 10px 0;">
+            <label class="form-label" style="margin-bottom: 4px;">Four-Stage Approval Workflow Progress</label>
+            <div class="workflow-stepper" id="approvalModalStepper">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Previous Approvers Decisions & Remarks -->
+          <div id="approvalHistoryContainer" style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; font-size: 0.82rem;">
+            <div style="font-weight: 700; color: #334155; margin-bottom: 6px;">Evaluation History &amp; Remarks</div>
+            <div id="approvalHistoryList" style="display: flex; flex-direction: column; gap: 8px;">
+              <!-- History items inserted dynamically -->
+            </div>
+          </div>
+
+          <!-- Decision Controls (Only active if current user is authorized to decide) -->
+          <div id="approvalDecisionSection">
+            <div class="form-group">
+              <label class="form-label">Decision <span class="required">*</span></label>
+              <div style="display: flex; gap: 14px; margin-top: 4px;">
+                <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
+                  <input type="radio" name="approvalDecision" value="Approved" checked onchange="toggleRejectionRequirement(false)">
+                  <span class="badge badge-approved" style="padding: 4px 10px;">Approve Stage</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer;">
+                  <input type="radio" name="approvalDecision" value="Rejected" onchange="toggleRejectionRequirement(true)">
+                  <span class="badge badge-rejected" style="padding: 4px 10px;">Reject Request</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="approvalRemarks" id="approvalRemarksLabel">Remarks / Notes</label>
+              <textarea id="approvalRemarks" class="form-control" rows="3" placeholder="Enter reason, constraints, or approval notes..."></textarea>
+              <span class="form-hint" id="approvalRemarksHint">Remarks are recorded in the official audit trail. Meaningful remarks are mandatory upon rejection.</span>
+            </div>
+          </div>
+
+          <!-- Read-only notice for unauthorized users or when already decided -->
+          <div id="approvalReadOnlyNotice" style="display: none; padding: 12px; border-radius: var(--radius-sm); background: #e0f2fe; color: #0369a1; font-size: 0.82rem; font-weight: 500;">
+            <span id="approvalReadOnlyText">You are viewing this request in read-only mode.</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('approvalModal')">Close</button>
+          <button type="submit" class="btn btn-primary" id="approvalSubmitBtn">Confirm &amp; Submit Decision</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 6: Delete Confirmation Modal -->
+  <div id="deleteModal" class="modal-backdrop">
+    <div class="modal-window" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="color: #dc2626;">Confirm Deletion</h3>
+        <button class="modal-close-btn" onclick="closeModal('deleteModal')" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="deleteModalMessage" style="font-size: 0.9rem; color: var(--text-body);">
+          Are you sure you want to delete this item? This action cannot be undone.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeModal('deleteModal')">Cancel</button>
+        <button type="button" class="btn btn-danger" id="deleteConfirmBtn">Delete Permanently</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Main JavaScript Application -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Secrets and environment
+.env
+.env.*
+!.env.example
+
+# Local database dumps and backups
+*.sql
+*.sql.gz
+*.dump
+
+# Logs
+*.log
+
+# Editor and OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Virtual environments anywhere in the project
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
